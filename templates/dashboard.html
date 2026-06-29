@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Dashboard</title>
+</head>
+
+<body>
+<div class="container">
+    <h2>Welcome to SecureVault</h2>
+
+    <a href="/add">➕ Add Password</a>
+
+    <br><br>
+
+    <table border="1" cellpadding="10">
+
+        <tr>
+            <th>Website</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Action</th>
+        </tr>
+
+        {% for p in passwords %}
+
+        <tr>
+
+            <td>{{ p.website }}</td>
+
+            <td>{{ p.email }}</td>
+
+            <td>{{ p.password }}</td>
+
+            <td>
+
+                <a href="/delete/{{ p.id }}">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <a href="/logout">
+        Logout
+    </a>
+</div>
+</body>
+
+</html>
