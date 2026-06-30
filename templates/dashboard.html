@@ -1,58 +1,78 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Dashboard</title>
+    <title>Dashboard · SecureVault</title>
 </head>
-
 <body>
-<div class="container">
-    <h2>Welcome to SecureVault</h2>
+    <div class="dash-container">
 
-    <a href="/add">➕ Add Password</a>
+        <div class="dash-header">
+            <div class="dash-title">
+                <h2>Your Vault</h2>
+                <p class="subtitle">{{ passwords|length }} credential{{ 's' if passwords|length != 1 else '' }} secured</p>
+            </div>
+            <div class="dash-actions">
+                <a href="/add" class="btn btn-primary">+ Add Password</a>
+                <a href="/logout" class="btn btn-ghost">Logout</a>
+            </div>
+        </div>
 
-    <br><br>
+        {% if passwords %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Website</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in passwords %}
+                <tr>
+                    <td class="website" data-label="Website">{{ p.website }}</td>
+                    <td class="cred" data-label="Email">{{ p.email }}</td>
+                    <td data-label="Password">
+                        <div class="pw-cell">
+                            <span class="pw-dots" id="pw-{{ p.id }}">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
+                            <span class="pw-real" id="pwreal-{{ p.id }}">{{ p.password }}</span>
+                            <button type="button" class="icon-btn" onclick="togglePw('{{ p.id }}')" title="Show / hide">&#128065;</button>
+                            <button type="button" class="icon-btn" onclick="copyPw('{{ p.id }}')" title="Copy">&#128203;</button>
+                        </div>
+                    </td>
+                    <td data-label="Action">
+                        <a href="/edit/{{ p.id }}" class="btn-edit">Edit</a>
+                        <a href="/delete/{{ p.id }}" class="btn-delete" onclick="return confirm('Remove this credential from your vault?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <p>Your vault is empty. Add your first credential to get started.</p>
+            <a href="/add" class="btn btn-primary">+ Add Password</a>
+        </div>
+        {% endif %}
 
-    <table border="1" cellpadding="10">
+    </div>
 
-        <tr>
-            <th>Website</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Action</th>
-        </tr>
+    <script>
+        function togglePw(id) {
+            const dots = document.getElementById('pw-' + id);
+            const real = document.getElementById('pwreal-' + id);
+            const showing = real.style.display === 'inline';
+            real.style.display = showing ? 'none' : 'inline';
+            dots.style.display = showing ? 'inline' : 'none';
+        }
 
-        {% for p in passwords %}
-
-        <tr>
-
-            <td>{{ p.website }}</td>
-
-            <td>{{ p.email }}</td>
-
-            <td>{{ p.password }}</td>
-
-            <td>
-
-                <a href="/delete/{{ p.id }}">
-                    Delete
-                </a>
-
-            </td>
-
-        </tr>
-
-        {% endfor %}
-
-    </table>
-
-    <br>
-
-    <a href="/logout">
-        Logout
-    </a>
-</div>
+        function copyPw(id) {
+            const real = document.getElementById('pwreal-' + id).innerText;
+            navigator.clipboard.writeText(real).then(() => {
+                alert('Password copied to clipboard');
+            });
+        }
+    </script>
 </body>
-
 </html>

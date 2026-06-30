@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Edit Password · SecureVault</title>
+</head>
+<body>
+    <div class="container">
+
+        <h2>Edit Credential</h2>
+        <p class="subtitle">Update this saved entry</p>
+
+        <form method="POST">
+
+            <div class="field">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" value="{{ p.website }}" required>
+            </div>
+
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ p.email }}" required>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="text" id="password" name="password" value="{{ p.password }}" required>
+            </div>
+
+            <button type="submit">Update Vault</button>
+
+        </form>
+
+        <p class="footer-link"><a href="/dashboard">&larr; Back to vault</a></p>
+
+    </div>
+</body>
+</html>

@@ -1,59 +1,38 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Add Password</title>
+    <title>Add Password · SecureVault</title>
 </head>
-
 <body>
     <div class="container">
-<h2>Add New Password</h2>
 
-<form method="POST">
+        <h2>Add Credential</h2>
+        <p class="subtitle">Store a new website login in your vault</p>
 
+        <form method="POST">
 
-<input
-type="text"
-name="website"
-placeholder="Website"
-required>
+            <div class="field">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" placeholder="e.g. github.com" required>
+            </div>
 
-<br><br>
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Account email" required>
+            </div>
 
-<input
-type="email"
-name="email"
-placeholder="Email"
-required>
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="text" id="password" name="password" placeholder="Account password" required>
+            </div>
 
-<br><br>
+            <button type="submit">Save to Vault</button>
 
-<input
-type="text"
-name="password"
-placeholder="Password"
-required>
+        </form>
 
-<br><br>
+        <p class="footer-link"><a href="/dashboard">&larr; Back to vault</a></p>
 
-<button type="submit">
-
-Save Password
-
-</button>
-
-</form>
-
-<br>
-
-<a href="/dashboard">
-
-Back
-
-</a>
-</div>
-
+    </div>
 </body>
-
 </html>
